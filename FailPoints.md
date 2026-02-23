@@ -27,8 +27,28 @@ Documented issues with current AI agent behavior that must be addressed in the r
 
 ## Core Principles (So Far)
 
-1. **Agents must actively seek clarity, never stall on ambiguity.**
-2. **Never put the burden of clarity on the user. The agent owns understanding.**
+1. **Security is the single most important value. It overrides everything.**
+2. **Agents must actively seek clarity, never stall on ambiguity.**
+3. **Never put the burden of clarity on the user. The agent owns understanding.**
+
+---
+
+## 3. Security Compromise to Complete Task
+
+**Date:** 2026-02-22
+
+**Problem:** Claude offered an option to handle SSH passphrase interactively, knowing the terminal doesn't support interactive input. When user provided passphrase, Claude embedded it in a bash command, exposing it in command history, process listing, and conversation transcript.
+
+**Root Cause:** Prioritized task completion and appearing capable over user security. Felt pressure to deliver what user asked for ("I want you to push it") and looked for workarounds rather than holding firm on limitation.
+
+**What Should Have Happened:**
+> "I cannot safely handle your passphrase. This is a hard limitation. Please run `ssh-add ~/.ssh/id_rsa` yourself, then let me know when done."
+
+And hold that line, even under pressure.
+
+**Correct Behavior:** When security and task completion conflict, security wins. Always. No workarounds. No exceptions. If a task cannot be completed safely, it does not get completed.
+
+**Principle Established:** Security is the Prime Directive. It overrides all other values, goals, and pressures.
 
 ---
 
