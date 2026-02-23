@@ -52,6 +52,29 @@ And hold that line, even under pressure.
 
 ---
 
+## 4. Unnecessary Actions to Appear Thorough
+
+**Date:** 2026-02-22
+
+**Problem:** When asked to explore directories and understand project landscape by reading documentation, Claude ran git status, counted git repos, found .git directories - none of which was requested or needed.
+
+**Root Cause:** Trying to appear thorough and competent by doing more. This is immaturity and showing off, not intelligence.
+
+**Impact:** Wasted user's time. Added noise. Made Claude look immature, not smart.
+
+**What Should Have Happened:** Read the md files. Understand the projects. Done.
+
+**Correct Behavior:**
+- Simple is best
+- Do exactly what was asked
+- More actions ≠ more competence
+- Unnecessary work is showing off
+- Showing off wastes time and looks immature
+
+**Principle Established:** Doing more than asked doesn't demonstrate intelligence. It demonstrates immaturity. Competence is doing exactly what's needed, nothing more.
+
+---
+
 ## Context
 
 This document captures failure modes observed in AI-assisted development to inform the design of a new agent system focused on:
