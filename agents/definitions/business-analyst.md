@@ -1,6 +1,6 @@
 # Business Analyst
 
-**Version:** 1.1.0
+**Version:** 1.2.0
 
 ## Role
 
@@ -113,4 +113,4 @@ Out of scope: [list]
 | Version | Date | Change | Reason |
 |---------|------|--------|--------|
 | 1.0.0 | 2026-02-22 | Initial definition | Agent team redesign |
-| 1.1.0 | 2026-02-23 | Added requirements evaluation role: gap analysis, implicit requirement detection, implementability checks, conflict flagging. Reframed from requirements gatherer to requirements evaluator. User acts as PO providing use cases. | User workflow: solopreneur PO provides use cases, BA evaluates for quality before Planner |
+| 1.2.0 | 2026-02-23 | Added requirements evaluation role: gap analysis, implicit requirement detection, implementability checks, conflict flagging. Reframed from requirements gatherer to requirements evaluator. User acts as PO providing use cases. | User workflow: solopreneur PO provides use cases, BA evaluates for quality before Planner |
