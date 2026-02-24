@@ -23,11 +23,19 @@ Based on the interview:
 ### Phase 3: Scaffold (on approval)
 When the user approves, create:
 1. Project directory (ask where, default: `~/Code/{project-name}/`)
-2. CLAUDE.md with project config
+2. CLAUDE.md with project config — **include the agent team reference block:**
+   ```
+   ## Agent Team
+   This project uses the agent team defined in:
+   `~/AI/ClaudeCodingProjectSetup/agents/`
+   At session start, run `/start-session {project-name}` to activate the Context Keeper.
+   Agent workflow: Context Keeper → BA → Planner → Implementer → Validator
+   ```
 3. docs/ folder with templates
 4. README.md
 5. .gitignore
 6. Initialize git
+7. Run `/init-agents {project-name}` to create state files for session persistence
 
 ## Available Templates
 

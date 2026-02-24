@@ -40,13 +40,13 @@ Follow the agent workflow:
 
 ### Option 2: Skills/Commands
 
-Create skills in `.claude/commands/`:
+Skills in `.claude/commands/`:
 
-| Skill | Purpose |
-|-------|---------|
-| `/start-session` | Context Keeper behavior at session start |
-| `/init-agents {project}` | Initialize agent team for existing project |
-| `/new-project` | Update existing skill to use new agent team |
+| Skill | Purpose | Status |
+|-------|---------|--------|
+| `/start-session {project}` | Context Keeper session start/end protocol | Implemented |
+| `/init-agents {project}` | Initialize agent team + state files for existing project | Implemented |
+| `/new-project` | Recruiter interview + scaffolds with agent team reference | Updated |
 
 ### Option 3: Symlink Agent Definitions
 
@@ -60,17 +60,15 @@ Then reference in project's CLAUDE.md.
 
 ---
 
-## Recommendation
+## Setup
 
 ### For New Projects
 
-1. Update `/new-project` skill to scaffold CLAUDE.md with agent team reference
-2. Create `/start-session` skill for Context Keeper startup
+Run `/new-project` — scaffolds CLAUDE.md with agent team reference and creates state files automatically.
 
 ### For Existing Projects
 
-1. Create `/init-agents` skill that adds agent team to existing project
-2. Creates state files Context Keeper needs
+Run `/init-agents {project}` — adds agent team to existing project and creates state files.
 
 ### Session Start Protocol
 
