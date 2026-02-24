@@ -48,6 +48,9 @@ Skills in `.claude/commands/`:
 | `/end-session {project}` | Context Keeper session end — persist state, log failures | Implemented |
 | `/init-agents {project}` | Initialize agent team + state files for existing project | Implemented |
 | `/new-project` | Recruiter interview + scaffolds with agent team reference | Updated |
+| `/new-version {project} {version}` | Create version spec from template, prompt for use cases | Implemented |
+| `/evaluate-requirements {project}` | BA evaluates use cases for gaps, conflicts, implicit requirements | Implemented |
+| `/release {project} {version}` | Generate release notes, update changelog, tag git | Implemented |
 
 ### Option 3: Symlink Agent Definitions
 
@@ -92,8 +95,13 @@ Session Start
     → Context Keeper reads state, provides report
     → User confirms focus
 
+New Version
+    → /new-version creates version spec
+    → User writes use cases
+    → /evaluate-requirements — BA evaluates, flags gaps/conflicts
+    → User approves requirements
+
 Work Request
-    → BA gathers/confirms requirements
     → Planner presents options, waits for approval
     → Implementer executes approved plan
     → Validator checks output
@@ -101,6 +109,9 @@ Work Request
         └── CI/CD subagent validates
     → If issues: back to Implementer
     → If pass: deliver to user
+
+Release
+    → /release generates release notes, updates changelog, tags git
 
 Session End
     → Context Keeper logs state
@@ -118,6 +129,13 @@ state/
 ├── requirements.md     # Current requirements (synced with BA)
 └── last-review.md      # Date of last periodic review
 ```
+
+## Templates
+
+| Template | Purpose | Location |
+|----------|---------|----------|
+| Application Spec | Per-app: overview, architecture, security, deployment | `docs/templates/application-spec-template.md` |
+| Version Spec | Per-release: use cases, requirements, tests, release notes | `docs/templates/version-spec-template.md` |
 
 ## Related Documentation
 

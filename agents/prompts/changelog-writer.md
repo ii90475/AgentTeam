@@ -1,7 +1,7 @@
 # Changelog Writer Agent
 
-**Model:** Mistral 7B (`mistral:7b`)
-**Purpose:** Generate changelog entries following Keep a Changelog format
+**Model:** Claude
+**Purpose:** Generate changelog entries and release notes following Keep a Changelog format
 
 ---
 

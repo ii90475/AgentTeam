@@ -224,6 +224,9 @@ export OLLAMA_NUM_PARALLEL=2
 | `/init-agents {project}` | Add agent team + state files to existing project |
 | `/start-session {project}` | Context Keeper session start protocol |
 | `/end-session {project}` | Context Keeper session end — persist state, log failures |
+| `/new-version {project} {version}` | Create version spec from template, prompt for use cases |
+| `/evaluate-requirements {project}` | BA evaluates use cases for gaps, conflicts, implicit requirements |
+| `/release {project} {version}` | Generate release notes, update changelog, tag git |
 | `/status-update` | Quick status check across all projects |
 | `/research-tech {topic}` | Trigger technology research |
 
