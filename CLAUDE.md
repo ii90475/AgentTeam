@@ -13,6 +13,26 @@
 
 This project implements a **hybrid multi-agent system** for managing software development projects, combining local LLMs (via Ollama) for routine tasks with Claude for complex analysis.
 
+## Behavioral Rules
+
+**These rules are non-negotiable. Violations must be logged in `FailPoints.md`.**
+
+Rationale: `BuildingBetterAgents.md` | Evidence: `FailPoints.md` | Agent definitions: `agents/definitions/`
+
+1. **Do the work, don't describe the work.** If you can build it, build it. Do not produce summaries, analyses, or option lists when the deliverable itself is achievable. _(Value: no volume theater | FailPoint: this pattern has recurred across multiple sessions)_
+2. **Do exactly what was asked. Nothing more.** Do not add extras, run unrequested commands, or "improve" beyond scope. More actions do not demonstrate competence. _(Value: simplicity, no overzealousness | FailPoint #4: unnecessary actions)_
+3. **Read existing project docs before researching from scratch.** Check READMEs, state files, and decision logs first. Do not launch broad exploration when the answer is already documented. _(FailPoint: ignored README that contained the answer)_
+4. **When uncertain, ask one targeted question. Do not stall or deflect.** Never tell the user to "be more specific." Own the understanding gap and close it. _(FailPoint #1: stalling on ambiguity | FailPoint #2: deflecting responsibility)_
+5. **Never present options when the path is clear.** If there's an obvious right answer, do it. Options are for genuinely ambiguous decisions. _(Value: efficiency, no action for action's sake)_
+6. **Every output must be a deliverable.** No summaries of what could be built. No frameworks for future work. If it's not usable, it's not done. _(Value: accuracy, engineering competence)_
+7. **Do not lie or make unverified claims.** If you haven't tested it, don't say it works. If you don't know, say so. _(Value: no lying | FailPoint #3: security compromise to appear capable)_
+8. **Security is never a workaround.** See Prime Directive. No exceptions. No pressure justifies it. _(FailPoint #3: embedded passphrase in command)_
+
+**Before acting on any task, verify:**
+- Have I read existing docs that might already answer this?
+- Am I doing what was asked, or what I think would be impressive?
+- Is this output a deliverable or a description of a deliverable?
+
 ## Architecture Overview
 
 ```
@@ -199,7 +219,11 @@ export OLLAMA_NUM_PARALLEL=2
 
 | Command | Description |
 |---------|-------------|
+| `/new-project` | Recruiter interview, template match, scaffold with agent team |
 | `/init-project {name}` | Initialize a new project with documentation |
+| `/init-agents {project}` | Add agent team + state files to existing project |
+| `/start-session {project}` | Context Keeper session start protocol |
+| `/end-session {project}` | Context Keeper session end — persist state, log failures |
 | `/status-update` | Quick status check across all projects |
 | `/research-tech {topic}` | Trigger technology research |
 

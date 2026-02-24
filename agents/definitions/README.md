@@ -44,7 +44,8 @@ Skills in `.claude/commands/`:
 
 | Skill | Purpose | Status |
 |-------|---------|--------|
-| `/start-session {project}` | Context Keeper session start/end protocol | Implemented |
+| `/start-session {project}` | Context Keeper session start protocol | Implemented |
+| `/end-session {project}` | Context Keeper session end — persist state, log failures | Implemented |
 | `/init-agents {project}` | Initialize agent team + state files for existing project | Implemented |
 | `/new-project` | Recruiter interview + scaffolds with agent team reference | Updated |
 
