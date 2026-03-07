@@ -59,6 +59,7 @@ Use Claude instead of local models for:
 - Nuanced requirements interpretation
 - Multi-file refactoring with dependencies
 - Research and technology evaluation
+- Browser-based E2E testing (QA Agent — requires Playwright, judgment, screenshots)
 
 ## Adding New Agents
 

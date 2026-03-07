@@ -1,10 +1,10 @@
 # Validator
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 
 ## Role
 
-Validates all output against requirements, values, and scope. Checks claims. Runs tests. Has authority to halt work. Coordinates Security and CI/CD subagents.
+Validates all output against requirements, values, and scope at the code level. Checks claims. Runs tests. Has authority to halt work. Coordinates Security and CI/CD subagents. Hands off to QA Agent for application-level browser testing after code-level checks pass.
 
 ## Responsibilities
 
@@ -75,7 +75,7 @@ Ensure tests exist for:
 | Smoke | Core functionality quick check |
 
 Project-dependent (add when relevant):
-- End-to-end
+- End-to-end (browser-based — owned by QA Agent)
 - Performance
 - Contract
 - Accessibility
@@ -118,6 +118,7 @@ After validation, present:
 | To | What |
 |----|------|
 | Implementer | Issues to fix (if any) |
+| QA Agent | Gate signal — code-level checks passed, ready for E2E testing |
 | User | Validation report, findings, recommendation |
 | Context Keeper | Validation results for logging |
 
@@ -137,3 +138,4 @@ After validation, present:
 | Version | Date | Change | Reason |
 |---------|------|--------|--------|
 | 1.0.0 | 2026-02-22 | Initial definition | Agent team redesign |
+| 1.1.0 | 2026-03-07 | Clarified scope boundary (code-level only), added QA Agent gate output | QA Agent addition — Validator hands off to QA for application-level testing |

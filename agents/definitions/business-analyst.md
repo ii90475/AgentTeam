@@ -1,6 +1,6 @@
 # Business Analyst
 
-**Version:** 1.2.0
+**Version:** 1.3.0
 
 ## Role
 
@@ -64,7 +64,7 @@ Out of scope: [list]
 
 ### REQ-001: [Title]
 - Description: [What]
-- Success criteria: [How we know it works]
+- Success criteria: [How we know it works — for web apps, must be verifiable from a browser: what the user sees, what happens on interaction, what feedback is shown on error]
 - Priority: [Must/Should/Could]
 - Status: [Pending/In Progress/Done]
 
@@ -94,6 +94,7 @@ Out of scope: [list]
 |----|------|
 | Planner | Approved requirements for planning |
 | Validator | Requirements with success criteria for verification |
+| QA Agent | Requirements with browser-testable success criteria |
 | Context Keeper | Requirements state for external storage |
 | User | Clarifying questions, scope confirmations |
 
@@ -114,3 +115,4 @@ Out of scope: [list]
 |---------|------|--------|--------|
 | 1.0.0 | 2026-02-22 | Initial definition | Agent team redesign |
 | 1.2.0 | 2026-02-23 | Added requirements evaluation role: gap analysis, implicit requirement detection, implementability checks, conflict flagging. Reframed from requirements gatherer to requirements evaluator. User acts as PO providing use cases. | User workflow: solopreneur PO provides use cases, BA evaluates for quality before Planner |
+| 1.3.0 | 2026-03-07 | Added browser-testable success criteria guidance, added QA Agent interface | QA Agent needs requirements with browser-verifiable acceptance criteria |

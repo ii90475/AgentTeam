@@ -1,6 +1,6 @@
 # Context Keeper
 
-**Version:** 1.1.0
+**Version:** 1.2.0
 
 ## Role
 
@@ -75,6 +75,8 @@ Maintain external state files:
 - `state/decisions.md` - Key decisions made
 - `state/requirements.md` - Current requirements (synced with BA)
 - `state/last-review.md` - Date of last periodic review
+- `state/qa-config.md` - QA Agent configuration (URL, approval mode)
+- `qa/` directory - QA test plans, results, screenshots (owned by QA Agent)
 
 ### Agent Monitoring Checklist
 For each agent output, verify:
@@ -127,7 +129,7 @@ Post-mortem outputs:
 |------|------|
 | Previous session | State file |
 | Agent definitions | Responsibilities, anti-patterns, values to monitor |
-| All agents | Observable outputs and behaviors |
+| All agents (incl. QA Agent) | Observable outputs and behaviors |
 | User | Triage decisions |
 
 ### Outputs
@@ -169,3 +171,4 @@ Post-mortem outputs:
 |---------|------|--------|--------|
 | 1.0.0 | 2026-02-22 | Initial definition | Agent team redesign |
 | 1.1.0 | 2026-02-22 | Added context memory tracking, session start performance report, calendar-based periodic reviews, post-mortem deep dive structure | User feedback on review cadence and context loss prevention |
+| 1.2.0 | 2026-03-07 | Added QA Agent to monitored agents, added QA state files and config to tracked state | QA Agent addition to agent team |

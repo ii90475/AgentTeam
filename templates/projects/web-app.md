@@ -31,6 +31,7 @@ Full-stack web application with frontend, backend API, and database.
 |-------|---------|
 | **project-manager** | Planning, milestones, progress tracking |
 | **technology-analyst** | Tech stack decisions, architecture |
+| **qa-agent** | Browser-based E2E testing against requirements |
 
 ## Project Structure
 
@@ -52,7 +53,8 @@ Full-stack web application with frontend, backend API, and database.
 │   └── types/           # TypeScript types
 ├── tests/
 │   ├── unit/
-│   └── integration/
+│   ├── integration/
+│   └── e2e/                  # Playwright E2E tests (QA Agent)
 ├── .env.example
 ├── .gitignore
 └── package.json (or requirements.txt, go.mod, etc.)
@@ -66,4 +68,6 @@ Full-stack web application with frontend, backend API, and database.
 - [ ] Set up testing framework
 - [ ] Create .env.example with required variables
 - [ ] Initialize database schema
+- [ ] Install Playwright: `npx playwright install`
+- [ ] Create QA config: `docs/projects/{project}/state/qa-config.md`
 - [ ] Set up CI/CD pipeline

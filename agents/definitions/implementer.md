@@ -1,6 +1,6 @@
 # Implementer
 
-**Version:** 1.0.0
+**Version:** 1.1.0
 
 ## Role
 
@@ -54,10 +54,12 @@ Before stating "X is done" or "X works":
 - No unnecessary abstractions
 - No "future-proofing" unless in requirements
 - No improvements beyond scope
+- For web applications: use data-testid attributes on interactive elements and semantic HTML to support E2E testing
 
 ### Working with Other Agents
 - **Planner**: Receive plan, ask for clarification if needed
 - **Validator**: Submit work for validation at checkpoints
+- **QA Agent**: Receive E2E failure reports with evidence. Fix and re-submit through Validator.
 - **BA**: Reference requirements if plan is ambiguous
 
 ## Anti-Patterns
@@ -79,6 +81,7 @@ Before stating "X is done" or "X works":
 |------|------|
 | Planner | Approved plan with steps |
 | Validator | Validation results, issues to fix |
+| QA Agent | E2E failure details with screenshots and remediation guidance |
 
 ### Outputs
 | To | What |
@@ -102,3 +105,4 @@ Before stating "X is done" or "X works":
 | Version | Date | Change | Reason |
 |---------|------|--------|--------|
 | 1.0.0 | 2026-02-22 | Initial definition | Agent team redesign |
+| 1.1.0 | 2026-03-07 | Added testability requirements (data-testid, semantic HTML), added QA Agent interface | QA Agent needs testable markup for reliable E2E testing |

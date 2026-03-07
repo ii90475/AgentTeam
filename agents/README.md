@@ -34,19 +34,23 @@ Context Keeper          Business Analyst
          Validator
           ├── Security (subagent)
           └── CI/CD (subagent)
+              │
+              ▼
+         QA Agent
 ```
 
 ## Agent Summary
 
 | Agent | Role | Version |
 |-------|------|---------|
-| [Context Keeper](definitions/context-keeper.md) | Memory, state, failure management | 1.0.0 |
-| [Business Analyst](definitions/business-analyst.md) | Requirements, scope, success criteria | 1.0.0 |
+| [Context Keeper](definitions/context-keeper.md) | Memory, state, failure management | 1.2.0 |
+| [Business Analyst](definitions/business-analyst.md) | Requirements, scope, success criteria | 1.3.0 |
 | [Planner](definitions/planner.md) | Options, recommendations, approval | 1.0.0 |
-| [Implementer](definitions/implementer.md) | Minimal execution, consults as needed | 1.0.0 |
-| [Validator](definitions/validator.md) | Checks output against requirements and values | 1.0.0 |
+| [Implementer](definitions/implementer.md) | Minimal execution, consults as needed | 1.1.0 |
+| [Validator](definitions/validator.md) | Checks output against requirements and values | 1.1.0 |
 | [Security](definitions/security.md) | Vulnerability and security checks (subagent) | 1.0.0 |
 | [CI/CD](definitions/cicd.md) | Pipeline and deployment checks (subagent) | 1.0.0 |
+| [QA Agent](definitions/qa-agent.md) | Browser-based E2E testing, behavioral verification | 1.0.0 |
 
 ## Interaction Map
 
@@ -63,6 +67,10 @@ Context Keeper          Business Analyst
 | Security | Validator | Reports security findings |
 | CI/CD | Validator | Reports pipeline/deployment findings |
 | Context Keeper | User | Raises failures for triage |
+| Validator | QA Agent | Gates QA — signals code-level checks passed |
+| QA Agent | Implementer | Returns E2E failures with evidence |
+| QA Agent | User | Presents QA results, escalates ambiguous cases |
+| BA | QA Agent | Provides requirements with testable success criteria |
 
 ## Versioning
 
@@ -93,7 +101,8 @@ agents/
 │   ├── implementer.md
 │   ├── validator.md
 │   ├── security.md
-│   └── cicd.md
+│   ├── cicd.md
+│   └── qa-agent.md
 ├── evaluation/
 │   └── criteria.md           # Evaluation criteria per agent
 └── changelog/

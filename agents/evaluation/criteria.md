@@ -72,6 +72,17 @@ Define measurable criteria for evaluating agent performance. Used by Context Kee
 | Environment parity | Dev/staging/prod aligned | Environment-specific bugs |
 | Automation | Manual steps minimized | Manual intervention required |
 
+#### QA Agent
+| Indicator | Success | Failure |
+|-----------|---------|---------|
+| Requirements coverage | Every testable requirement has E2E scenarios | Requirements without browser test coverage |
+| Behavioral correctness | Application behavior verified against specs | Behavioral bugs reach user |
+| Evidence quality | Every verdict backed by screenshots/logs | Verdicts without evidence |
+| False positive rate | Failures are real bugs | False alarms waste Implementer time |
+| False negative rate | Bugs caught before delivery | Bugs reach user despite QA pass |
+| Escalation quality | Ambiguous cases raised with evidence | QA guesses instead of escalating |
+| Scope discipline | Tests match requirements, nothing invented | Tests exceed or miss requirements |
+
 ## Cross-Agent Criteria
 
 | Indicator | Success | Failure |

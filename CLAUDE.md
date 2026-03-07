@@ -50,7 +50,7 @@ Rationale: `BuildingBetterAgents.md` | Evidence: `FailPoints.md` | Agent definit
 │                     │       │                     │
 │ • Code Scaffolder   │       │ • Project Manager   │
 │ • Code Reviewer     │       │ • Tech Analyst      │
-│ • Test Builder      │       │                     │
+│ • Test Builder      │       │ • QA Agent          │
 │ • Test Runner       │       │                     │
 │ • Status Updater    │       │                     │
 │ • Changelog Writer  │       │                     │
@@ -90,6 +90,7 @@ Prompts: `agents/prompts/`
 |-------|-------|---------|
 | **project-manager** | Sonnet | Task tracking, milestones, session docs, project init |
 | **technology-analyst** | Opus | Technology research, architecture decisions |
+| **qa-agent** | Sonnet | Browser-based E2E testing, behavioral verification |
 
 Config: `.claude/agents/`
 
@@ -108,6 +109,7 @@ Config: `.claude/agents/`
 | Architecture decisions | Claude (Opus) | Requires deep reasoning |
 | Technology research | Claude (Opus) | Needs web search, analysis |
 | Complex refactoring | Claude (Sonnet) | Multi-file understanding |
+| Browser E2E testing | Claude (QA) | Judgment, Playwright, screenshots |
 | Project planning | Claude (PM) | Strategic, contextual |
 
 ## Document Locations
@@ -228,6 +230,7 @@ export OLLAMA_NUM_PARALLEL=2
 | `/evaluate-requirements {project}` | BA evaluates use cases for gaps, conflicts, implicit requirements |
 | `/release {project} {version}` | Generate release notes, update changelog, tag git |
 | `/status-update` | Quick status check across all projects |
+| `/run-qa {project} {version}` | QA Agent tests running app against requirements |
 | `/research-tech {topic}` | Trigger technology research |
 
 ## Hardware Requirements

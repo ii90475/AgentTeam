@@ -67,6 +67,34 @@ Each entry includes:
 - **Reason:** Agent team redesign - pipeline integrity, deployment safety
 - **FailPoints Reference:** N/A - foundational
 
+### 2026-03-07
+
+#### QA Agent 1.0.0
+- **Change:** Initial definition
+- **Type:** Major (new agent)
+- **Reason:** Browser-based E2E testing capability for web applications
+- **FailPoints Reference:** N/A - new capability requested by user
+
+#### Validator 1.1.0
+- **Change:** Clarified scope boundary (code-level only), added QA Agent gate output
+- **Type:** Minor (scope clarification)
+- **Reason:** QA Agent addition — Validator hands off to QA for application-level testing
+
+#### Implementer 1.1.0
+- **Change:** Added testability requirements (data-testid, semantic HTML), added QA Agent interface
+- **Type:** Minor (new requirement)
+- **Reason:** QA Agent needs testable markup for reliable E2E testing
+
+#### Business Analyst 1.3.0
+- **Change:** Added browser-testable success criteria guidance, added QA Agent interface
+- **Type:** Minor (criteria enhancement)
+- **Reason:** QA Agent needs requirements with browser-verifiable acceptance criteria
+
+#### Context Keeper 1.2.0
+- **Change:** Added QA Agent to monitored agents, added QA state files to tracked state
+- **Type:** Minor (new agent monitoring)
+- **Reason:** QA Agent addition to agent team
+
 ---
 
 ## Pending Updates

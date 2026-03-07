@@ -13,6 +13,7 @@ This directory contains the definitions for the AI agent team focused on produci
 | [Validator](validator.md) | Validates output against requirements and values |
 | [Security](security.md) | Vulnerability and security checks (subagent) |
 | [CI/CD](cicd.md) | Pipeline and deployment checks (subagent) |
+| [QA Agent](qa-agent.md) | Browser-based E2E testing, behavioral verification |
 
 ## How to Invoke This Agent Team
 
@@ -51,6 +52,7 @@ Skills in `.claude/commands/`:
 | `/new-version {project} {version}` | Create version spec from template, prompt for use cases | Implemented |
 | `/evaluate-requirements {project}` | BA evaluates use cases for gaps, conflicts, implicit requirements | Implemented |
 | `/release {project} {version}` | Generate release notes, update changelog, tag git | Implemented |
+| `/run-qa {project} {version}` | QA Agent tests running app against requirements | Implemented |
 
 ### Option 3: Symlink Agent Definitions
 
@@ -108,7 +110,9 @@ Work Request
         ├── Security subagent scans
         └── CI/CD subagent validates
     → If issues: back to Implementer
-    → If pass: deliver to user
+    → If pass: QA Agent tests running application (for web apps)
+        ├── If fail: back to Implementer
+        └── If pass: deliver to user
 
 Release
     → /release generates release notes, updates changelog, tags git
@@ -127,7 +131,8 @@ state/
 ├── session-log.md      # Running log of sessions
 ├── decisions.md        # Key decisions made
 ├── requirements.md     # Current requirements (synced with BA)
-└── last-review.md      # Date of last periodic review
+├── last-review.md      # Date of last periodic review
+└── qa-config.md        # QA Agent configuration (URL, approval mode)
 ```
 
 ## Templates
