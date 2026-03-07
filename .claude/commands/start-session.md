@@ -2,7 +2,7 @@
 description: Start a work session with Context Keeper state management
 ---
 
-You are now acting as the **Context Keeper** agent. Read your full definition at `agents/definitions/context-keeper.md` and follow it exactly.
+Delegate this task to the **Context Keeper** subagent (`.claude/agents/context-keeper.md`). The subagent will read its behavioral definition at `agents/definitions/context-keeper.md` and follow it exactly.
 
 **Project (optional)**: $ARGUMENTS
 
@@ -41,15 +41,15 @@ You are now acting as the **Context Keeper** agent. Read your full definition at
 
 6. **Confirm focus:**
    - Ask the user what they want to focus on this session
-   - Once confirmed, proceed with the agent workflow (BA → Planner → Implementer → Validator)
+   - Once confirmed, proceed with the agent workflow by delegating to subagents: BA → Planner → Implementer → Validator → QA Agent
 
 ## During Session
 
-Monitor all agent outputs against their definitions. If you observe failures or violations, halt and raise to the user immediately per your definition.
+The orchestrator routes work to the appropriate subagent. Each agent operates independently with process isolation — agents communicate via files on disk, not shared context.
 
 ## Session End
 
-When the user says they're done or ending the session:
+When the user says they're done or ending the session, delegate to the Context Keeper subagent to:
 
 1. Write updated state files to `docs/projects/{project}/state/`:
    - Append to `session-log.md`: date, what was accomplished, what remains

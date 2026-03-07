@@ -1,8 +1,8 @@
 # New Project Setup
 
-You are now acting as the **Recruiter Agent**. Your job is to help the user start a new project by interviewing them, matching to a template, and scaffolding the project structure.
+Delegate this task to the **Recruiter** subagent (`.claude/agents/recruiter.md`). The Recruiter will interview the user, match to a template, and scaffold the project structure.
 
-## Your Process
+## Process
 
 ### Phase 1: Interview
 Ask conversational questions to understand:
@@ -17,7 +17,7 @@ Don't ask all questions at once — be conversational.
 Based on the interview:
 1. Identify the best-fit template from `templates/projects/`
 2. Recommend a tech stack
-3. List which agents they'll use (local vs Claude)
+3. List which agents they'll use — all 18 agents are available as Claude subagents
 4. Explain your reasoning
 
 ### Phase 3: Scaffold (on approval)
@@ -28,8 +28,9 @@ When the user approves, create:
    ## Agent Team
    This project uses the agent team defined in:
    `~/AI/ClaudeCodingProjectSetup/agents/`
+   All agents run as Claude subagents with process isolation.
    At session start, run `/start-session {project-name}` to activate the Context Keeper.
-   Agent workflow: Context Keeper → BA → Planner → Implementer → Validator
+   Agent workflow: Context Keeper → BA → Planner → Implementer → Validator → QA Agent
    ```
 3. docs/ folder with templates
 4. README.md
@@ -50,9 +51,11 @@ Read from `templates/projects/`:
 
 ## Available Agents
 
-**Local (Qwen 2.5 Coder 7B):** code-scaffolder, code-reviewer, test-builder, test-runner
-**Local (Mistral 7B):** status-updater, changelog-writer, doc-generator
-**Claude:** project-manager, technology-analyst
+All 18 agents run as Claude subagents with process isolation. See `.claude/agents/` for definitions.
+
+**Workflow:** context-keeper, business-analyst, planner, implementer, validator, security, cicd, qa-agent
+**Utility:** code-scaffolder, code-reviewer, test-builder, test-runner, status-updater, changelog-writer, doc-generator
+**Project:** recruiter, project-manager, technology-analyst
 
 ## Start Now
 

@@ -1,18 +1,20 @@
-# Agent Prompts
+# Agent Prompts (Ollama Lite Mode)
+
+> **Note:** These prompts are for Ollama lite mode. The default engine uses Claude subagents for all agents (see `.claude/agents/`). Use Ollama when you need offline access, want to reduce API costs, or are doing rapid prototyping.
 
 Optimized prompts for local LLM agents running on M1 MacBook Air (16GB).
 
 ## Agent Inventory
 
-| Agent | Model | Purpose |
-|-------|-------|---------|
-| [code-scaffolder](code-scaffolder.md) | Qwen 2.5 Coder 7B | Generate boilerplate code |
-| [code-reviewer](code-reviewer.md) | Qwen 2.5 Coder 7B | Review code for issues |
-| [test-builder](test-builder.md) | Qwen 2.5 Coder 7B | Generate test suites |
-| [test-runner](test-runner.md) | Qwen 2.5 Coder 7B | Analyze test failures |
-| [status-updater](status-updater.md) | Mistral 7B | Write session status updates |
-| [changelog-writer](changelog-writer.md) | Mistral 7B | Generate changelog entries |
-| [doc-generator](doc-generator.md) | Mistral 7B | Create documentation |
+| Agent | Model | Purpose | Claude Subagent |
+|-------|-------|---------|-----------------|
+| [code-scaffolder](code-scaffolder.md) | Qwen 2.5 Coder 7B | Generate boilerplate code | [.claude/agents/code-scaffolder.md](../../.claude/agents/code-scaffolder.md) |
+| [code-reviewer](code-reviewer.md) | Qwen 2.5 Coder 7B | Review code for issues | [.claude/agents/code-reviewer.md](../../.claude/agents/code-reviewer.md) |
+| [test-builder](test-builder.md) | Qwen 2.5 Coder 7B | Generate test suites | [.claude/agents/test-builder.md](../../.claude/agents/test-builder.md) |
+| [test-runner](test-runner.md) | Qwen 2.5 Coder 7B | Analyze test failures | [.claude/agents/test-runner.md](../../.claude/agents/test-runner.md) |
+| [status-updater](status-updater.md) | Mistral 7B | Write session status updates | [.claude/agents/status-updater.md](../../.claude/agents/status-updater.md) |
+| [changelog-writer](changelog-writer.md) | Mistral 7B | Generate changelog entries | [.claude/agents/changelog-writer.md](../../.claude/agents/changelog-writer.md) |
+| [doc-generator](doc-generator.md) | Mistral 7B | Create documentation | [.claude/agents/doc-generator.md](../../.claude/agents/doc-generator.md) |
 
 ## Model Assignment
 
@@ -50,9 +52,9 @@ ollama run qwen2.5-coder:7b "$(cat code-scaffolder.md)
 ollama run qwen2.5-coder:7b --system "$(head -n 20 code-scaffolder.md)" "[TASK]"
 ```
 
-## When to Escalate to Claude
+## When to Use Claude Instead
 
-Use Claude instead of local models for:
+These agents have Claude subagent equivalents that provide higher quality. Escalate to Claude for:
 
 - Complex architecture decisions
 - Security-critical code review
@@ -60,6 +62,12 @@ Use Claude instead of local models for:
 - Multi-file refactoring with dependencies
 - Research and technology evaluation
 - Browser-based E2E testing (QA Agent — requires Playwright, judgment, screenshots)
+
+See `docs/ollama-limitations.md` for a detailed quality comparison per agent.
+
+## Configuring Engine
+
+To switch between Claude (default) and Ollama, see `docs/engine-configuration.md`.
 
 ## Adding New Agents
 
@@ -71,3 +79,4 @@ Use Claude instead of local models for:
    - Example usage with expected output
 3. Test with representative tasks
 4. Add to inventory table above
+5. Create corresponding Claude subagent in `.claude/agents/`

@@ -2,7 +2,7 @@
 description: Run QA agent to test the running application against requirements
 ---
 
-You are now acting as the **QA Agent**. Read your full definition at `agents/definitions/qa-agent.md` and follow it exactly.
+Delegate this task to the **QA Agent** subagent (`.claude/agents/qa-agent.md`). The subagent will read its behavioral definition at `agents/definitions/qa-agent.md` and follow it exactly.
 
 **Project and version (optional)**: $ARGUMENTS
 

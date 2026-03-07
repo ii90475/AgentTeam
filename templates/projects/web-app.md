@@ -15,23 +15,27 @@ Full-stack web application with frontend, backend API, and database.
 
 ## Recommended Agents
 
-### Local Agents (Routine Tasks)
-| Agent | Use For |
-|-------|---------|
-| **code-scaffolder** | Components, API endpoints, data models |
-| **code-reviewer** | PR reviews, security checks |
-| **test-builder** | Unit tests, integration tests |
-| **test-runner** | Analyze test failures |
-| **doc-generator** | README, API docs |
-| **changelog-writer** | Release notes |
-| **status-updater** | Session logs |
+All agents run as Claude subagents with process isolation. Ollama lite mode available for utility agents (see `docs/engine-configuration.md`).
 
-### Claude Agents (Complex Tasks)
-| Agent | Use For |
-|-------|---------|
-| **project-manager** | Planning, milestones, progress tracking |
-| **technology-analyst** | Tech stack decisions, architecture |
-| **qa-agent** | Browser-based E2E testing against requirements |
+| Agent | Model | Use For |
+|-------|-------|---------|
+| **context-keeper** | Sonnet | Session state, memory, agent monitoring |
+| **business-analyst** | Sonnet | Requirements, scope, success criteria |
+| **planner** | Sonnet | Implementation options, approval gate |
+| **implementer** | Sonnet | Code execution, stops on ambiguity |
+| **validator** | Sonnet | Quality gate, coordinates security + CI/CD |
+| **security** | Sonnet | Vulnerability scanning, OWASP checks |
+| **cicd** | Sonnet | Pipeline validation, deployment safety |
+| **qa-agent** | Sonnet | Browser-based E2E testing against requirements |
+| **code-scaffolder** | Haiku | Components, API endpoints, data models |
+| **code-reviewer** | Sonnet | PR reviews, security checks |
+| **test-builder** | Haiku | Unit tests, integration tests |
+| **test-runner** | Haiku | Analyze test failures |
+| **doc-generator** | Haiku | README, API docs |
+| **changelog-writer** | Haiku | Release notes |
+| **status-updater** | Haiku | Session logs |
+| **project-manager** | Sonnet | Planning, milestones, progress tracking |
+| **technology-analyst** | Opus | Tech stack decisions, architecture |
 
 ## Project Structure
 

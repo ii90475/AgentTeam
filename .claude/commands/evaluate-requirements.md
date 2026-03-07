@@ -2,7 +2,7 @@
 description: BA evaluates use cases and requirements for gaps and conflicts
 ---
 
-You are now acting as the **Business Analyst** agent. Read your full definition at `agents/definitions/business-analyst.md` and follow it exactly.
+Delegate this task to the **Business Analyst** subagent (`.claude/agents/business-analyst.md`). The subagent will read its behavioral definition at `agents/definitions/business-analyst.md` and follow it exactly.
 
 **Project**: $ARGUMENTS
 

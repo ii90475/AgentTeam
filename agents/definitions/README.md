@@ -1,6 +1,6 @@
 # Agent Definitions
 
-This directory contains the definitions for the AI agent team focused on producing high-quality software deliverables.
+This directory contains the behavioral definitions for the AI agent team. These definitions are the **source of truth** for agent behavior — both Claude subagents and Ollama prompts reference these files.
 
 ## Agents
 
@@ -15,54 +15,24 @@ This directory contains the definitions for the AI agent team focused on produci
 | [CI/CD](cicd.md) | Pipeline and deployment checks (subagent) |
 | [QA Agent](qa-agent.md) | Browser-based E2E testing, behavioral verification |
 
-## How to Invoke This Agent Team
+## How Agents Are Invoked
 
-### Option 1: CLAUDE.md Integration
+All agents run as **Claude subagents** with process isolation. The orchestrator (main Claude session) delegates work to the appropriate subagent, which reads its behavioral definition from this directory.
 
-Add to any project's CLAUDE.md:
+Subagent definitions: `.claude/agents/` — each contains YAML frontmatter (name, description, tools, model) and references the behavioral definition here.
 
-```markdown
-## Agent Team
-
-This project uses the agent team defined in:
-`~/AI/ClaudeCodingProjectSetup/agents/`
-
-At session start, read and follow:
-- `agents/README.md` - Agent hierarchy and interactions
-- `agents/definitions/context-keeper.md` - Start with this agent
-
-Follow the agent workflow:
-1. Context Keeper provides session start report
-2. BA owns requirements
-3. Planner presents options, waits for approval
-4. Implementer executes minimally
-5. Validator checks all output
-```
-
-### Option 2: Skills/Commands
-
-Skills in `.claude/commands/`:
+### Invocation via Slash Commands
 
 | Skill | Purpose | Status |
 |-------|---------|--------|
-| `/start-session {project}` | Context Keeper session start protocol | Implemented |
-| `/end-session {project}` | Context Keeper session end — persist state, log failures | Implemented |
+| `/start-session {project}` | Delegates to Context Keeper subagent | Implemented |
+| `/end-session {project}` | Delegates to Context Keeper subagent | Implemented |
 | `/init-agents {project}` | Initialize agent team + state files for existing project | Implemented |
-| `/new-project` | Recruiter interview + scaffolds with agent team reference | Updated |
+| `/new-project` | Delegates to Recruiter subagent | Implemented |
 | `/new-version {project} {version}` | Create version spec from template, prompt for use cases | Implemented |
-| `/evaluate-requirements {project}` | BA evaluates use cases for gaps, conflicts, implicit requirements | Implemented |
+| `/evaluate-requirements {project}` | Delegates to Business Analyst subagent | Implemented |
 | `/release {project} {version}` | Generate release notes, update changelog, tag git | Implemented |
-| `/run-qa {project} {version}` | QA Agent tests running app against requirements | Implemented |
-
-### Option 3: Symlink Agent Definitions
-
-For any project, symlink the agents folder:
-
-```bash
-ln -s ~/AI/ClaudeCodingProjectSetup/agents ~/Code/YourProject/agents
-```
-
-Then reference in project's CLAUDE.md.
+| `/run-qa {project} {version}` | Delegates to QA Agent subagent | Implemented |
 
 ---
 
@@ -76,48 +46,39 @@ Run `/new-project` — scaffolds CLAUDE.md with agent team reference and creates
 
 Run `/init-agents {project}` — adds agent team to existing project and creates state files.
 
-### Session Start Protocol
-
-At the start of each session, Context Keeper should:
-
-1. Read previous session state
-2. Read FailPoints.md for recent patterns
-3. Check if periodic review is due (>7 days)
-4. Provide performance report:
-   - Agent health summary
-   - Context health
-   - Pending issues
-5. Summarize: "Last session we [X]. Pending: [Y]. Open decisions: [Z]."
-6. Confirm focus for this session
-
 ### Workflow
 
 ```
 Session Start
+    → Orchestrator delegates to Context Keeper subagent
     → Context Keeper reads state, provides report
     → User confirms focus
 
 New Version
     → /new-version creates version spec
     → User writes use cases
-    → /evaluate-requirements — BA evaluates, flags gaps/conflicts
+    → Orchestrator delegates to BA subagent for evaluation
     → User approves requirements
 
 Work Request
+    → Orchestrator delegates to Planner subagent
     → Planner presents options, waits for approval
+    → Orchestrator delegates to Implementer subagent
     → Implementer executes approved plan
+    → Orchestrator delegates to Validator subagent
     → Validator checks output
-        ├── Security subagent scans
-        └── CI/CD subagent validates
-    → If issues: back to Implementer
-    → If pass: QA Agent tests running application (for web apps)
-        ├── If fail: back to Implementer
+        ├── Delegates to Security subagent
+        └── Delegates to CI/CD subagent
+    → If issues: back to Implementer subagent
+    → If pass: Orchestrator delegates to QA Agent subagent
+        ├── If fail: back to Implementer subagent
         └── If pass: deliver to user
 
 Release
     → /release generates release notes, updates changelog, tags git
 
 Session End
+    → Orchestrator delegates to Context Keeper subagent
     → Context Keeper logs state
     → FailPoints.md updated if failures occurred
 ```
@@ -132,7 +93,8 @@ state/
 ├── decisions.md        # Key decisions made
 ├── requirements.md     # Current requirements (synced with BA)
 ├── last-review.md      # Date of last periodic review
-└── qa-config.md        # QA Agent configuration (URL, approval mode)
+├── qa-config.md        # QA Agent configuration (URL, approval mode)
+└── engine-config.md    # Engine configuration (claude/ollama)
 ```
 
 ## Templates
@@ -144,8 +106,10 @@ state/
 
 ## Related Documentation
 
-- [Agent Registry](../README.md) - Hierarchy, interactions, versioning
-- [Evaluation Criteria](../evaluation/criteria.md) - How agents are measured
-- [Agent Updates](../changelog/agent-updates.md) - Version history
-- [FailPoints](../../FailPoints.md) - Claude behavioral failures log
-- [BuildingBetterAgents](../../BuildingBetterAgents.md) - Values and principles
+- [Agent Registry](../README.md) — Full agent inventory, hierarchy, interactions
+- [Evaluation Criteria](../evaluation/criteria.md) — How agents are measured
+- [Agent Updates](../changelog/agent-updates.md) — Version history
+- [Engine Configuration](../../docs/engine-configuration.md) — Claude vs Ollama setup
+- [Ollama Limitations](../../docs/ollama-limitations.md) — 7B model capabilities and gaps
+- [FailPoints](../../FailPoints.md) — Claude behavioral failures log
+- [BuildingBetterAgents](../../BuildingBetterAgents.md) — Values and principles

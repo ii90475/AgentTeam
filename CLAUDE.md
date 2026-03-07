@@ -11,7 +11,7 @@
 - If a task cannot be completed safely, it does not get completed.
 - This directive does not drift, get deprioritized, or get forgotten.
 
-This project implements a **hybrid multi-agent system** for managing software development projects, combining local LLMs (via Ollama) for routine tasks with Claude for complex analysis.
+This project implements a **unified multi-agent system** for managing software development projects. All 18 agents run as Claude subagents with process isolation.
 
 ## Behavioral Rules
 
@@ -33,109 +33,111 @@ Rationale: `BuildingBetterAgents.md` | Evidence: `FailPoints.md` | Agent definit
 - Am I doing what was asked, or what I think would be impressive?
 - Is this output a deliverable or a description of a deliverable?
 
-## Architecture Overview
+## Architecture
 
 ```
-┌─────────────────────────────────────────────────────────────┐
-│                     Claude (Orchestrator)                    │
-│         Complex decisions, architecture, research            │
-└─────────────────────────┬───────────────────────────────────┘
-                          │
-          ┌───────────────┴───────────────┐
-          │                               │
-          ▼                               ▼
-┌─────────────────────┐       ┌─────────────────────┐
-│   Local LLM Agents  │       │  Claude Subagents   │
-│      (Ollama)       │       │   (API-based)       │
-│                     │       │                     │
-│ • Code Scaffolder   │       │ • Project Manager   │
-│ • Code Reviewer     │       │ • Tech Analyst      │
-│ • Test Builder      │       │ • QA Agent          │
-│ • Test Runner       │       │                     │
-│ • Status Updater    │       │                     │
-│ • Changelog Writer  │       │                     │
-│ • Doc Generator     │       │                     │
-└─────────────────────┘       └─────────────────────┘
-   Qwen/Mistral 7B                 Sonnet/Opus
-   Fast, free, local            Powerful, nuanced
+┌─────────────────────────────────────────────────────────┐
+│              Orchestrator (main Claude session)          │
+│        Routes work to subagents, does not do it          │
+└────────────────────────┬────────────────────────────────┘
+                         │
+     ┌───────────────────┼───────────────────┐
+     │                   │                   │
+     ▼                   ▼                   ▼
+┌──────────┐      ┌──────────┐       ┌──────────┐
+│ Workflow  │      │ Utility  │       │ Project  │
+│  Agents   │      │  Agents  │       │  Agents  │
+│ (Sonnet)  │      │ (Haiku)  │       │          │
+│           │      │          │       │ recruiter│
+│ context-  │      │ code-    │       │ project- │
+│ keeper    │      │ scaff.   │       │ manager  │
+│ BA        │      │ code-    │       │ tech-    │
+│ planner   │      │ reviewer*│       │ analyst  │
+│ implmtr   │      │ test-    │       │ (Opus)   │
+│ validator │      │ builder  │       │          │
+│ security  │      │ test-    │       └──────────┘
+│ cicd      │      │ runner   │
+│ qa-agent  │      │ status-  │
+│           │      │ updater  │
+│           │      │ chlg-    │
+│           │      │ writer   │
+│           │      │ doc-gen  │
+└──────────┘      └──────────┘
+                  * code-reviewer: Sonnet
 ```
 
-## Quick Start
+### Orchestrator Protocol
 
-1. **Install local models**: `ollama pull qwen2.5-coder:7b && ollama pull mistral:7b`
-2. **Initialize a new project**: Ask the Project Manager to create a new project
-3. **Research technologies**: Ask the Technology Analyst to evaluate options
-4. **Start a session**: Tell the Project Manager you're starting work
-5. **End a session**: Ask the Project Manager to document progress
+The main session coordinates but does NOT implement, validate, or evaluate:
+
+1. Routes work to subagents based on workflow stage
+2. Passes context between agents via files on disk
+3. Enforces workflow: BA → Planner → Implementer → Validator → QA Agent
+4. Presents results, collects approvals
+5. Routes failures back through the loop
+
+### Process Isolation
+
+- Agents cannot see each other's reasoning, only output artifacts
+- Validator judges Implementer's code independently
+- QA tests the running app without seeing code reasoning
+- Context Keeper monitors from outside the reasoning chain
 
 ## Agent Inventory
 
-### Local Agents (Ollama) — Routine Tasks
+### All 18 Agents
 
-| Agent | Model | Purpose |
-|-------|-------|---------|
-| **code-scaffolder** | Qwen 2.5 Coder 7B | Generate boilerplate, components, APIs |
-| **code-reviewer** | Qwen 2.5 Coder 7B | Review code for bugs, security, style |
-| **test-builder** | Qwen 2.5 Coder 7B | Generate unit/integration tests |
-| **test-runner** | Qwen 2.5 Coder 7B | Analyze test failures, suggest fixes |
-| **status-updater** | Mistral 7B | Write session status updates |
-| **changelog-writer** | Mistral 7B | Generate changelog entries |
-| **doc-generator** | Mistral 7B | Create READMEs, API docs, guides |
+| Agent | Type | Model | Subagent Definition |
+|-------|------|-------|---------------------|
+| context-keeper | Workflow | Sonnet | `.claude/agents/context-keeper.md` |
+| business-analyst | Workflow | Sonnet | `.claude/agents/business-analyst.md` |
+| planner | Workflow | Sonnet | `.claude/agents/planner.md` |
+| implementer | Workflow | Sonnet | `.claude/agents/implementer.md` |
+| validator | Workflow | Sonnet | `.claude/agents/validator.md` |
+| security | Workflow | Sonnet | `.claude/agents/security.md` |
+| cicd | Workflow | Sonnet | `.claude/agents/cicd.md` |
+| qa-agent | Workflow | Sonnet | `.claude/agents/qa-agent.md` |
+| code-scaffolder | Utility | Haiku | `.claude/agents/code-scaffolder.md` |
+| code-reviewer | Utility | Sonnet | `.claude/agents/code-reviewer.md` |
+| test-builder | Utility | Haiku | `.claude/agents/test-builder.md` |
+| test-runner | Utility | Haiku | `.claude/agents/test-runner.md` |
+| status-updater | Utility | Haiku | `.claude/agents/status-updater.md` |
+| changelog-writer | Utility | Haiku | `.claude/agents/changelog-writer.md` |
+| doc-generator | Utility | Haiku | `.claude/agents/doc-generator.md` |
+| recruiter | Project | Sonnet | `.claude/agents/recruiter.md` |
+| project-manager | Project | Sonnet | `.claude/agents/project-manager.md` |
+| technology-analyst | Project | Opus | `.claude/agents/technology-analyst.md` |
 
-Prompts: `agents/prompts/`
+### Engine Configuration
 
-### Claude Subagents — Complex Tasks
+Per-project engine config in `docs/projects/{project}/state/engine-config.md`:
 
-| Agent | Model | Purpose |
-|-------|-------|---------|
-| **project-manager** | Sonnet | Task tracking, milestones, session docs, project init |
-| **technology-analyst** | Opus | Technology research, architecture decisions |
-| **qa-agent** | Sonnet | Browser-based E2E testing, behavioral verification |
+| Engine | Behavior |
+|--------|----------|
+| `claude` (default) | All 18 agents as Claude subagents |
+| `ollama` | 7 utility agents via Ollama CLI, 11 others always Claude |
 
-Config: `.claude/agents/`
-
-## When to Use Which
-
-| Task Type | Agent | Why |
-|-----------|-------|-----|
-| Code boilerplate | Local (Qwen) | Fast, free, well-defined |
-| Code review (basic) | Local (Qwen) | Catches common issues |
-| Code review (security) | Claude | Nuanced, critical |
-| Test generation | Local (Qwen) | Pattern-based |
-| Test failure analysis | Local (Qwen) | Structured debugging |
-| Status updates | Local (Mistral) | Templated, routine |
-| Changelog entries | Local (Mistral) | Follows standard format |
-| README generation | Local (Mistral) | Well-defined structure |
-| Architecture decisions | Claude (Opus) | Requires deep reasoning |
-| Technology research | Claude (Opus) | Needs web search, analysis |
-| Complex refactoring | Claude (Sonnet) | Multi-file understanding |
-| Browser E2E testing | Claude (QA) | Judgment, Playwright, screenshots |
-| Project planning | Claude (PM) | Strategic, contextual |
+See: `docs/engine-configuration.md` | `docs/ollama-limitations.md`
 
 ## Document Locations
 
 ```
 .
 ├── agents/
-│   └── prompts/              # Local LLM agent prompts
-│       ├── README.md
-│       ├── code-scaffolder.md
-│       ├── code-reviewer.md
-│       ├── test-builder.md
-│       ├── test-runner.md
-│       ├── status-updater.md
-│       ├── changelog-writer.md
-│       └── doc-generator.md
+│   ├── definitions/              # Behavioral definitions (source of truth)
+│   └── prompts/                  # Ollama prompts (lite mode)
 ├── .claude/
-│   ├── agents/               # Claude subagent definitions
-│   └── commands/             # Slash commands
+│   ├── agents/                   # Claude subagent definitions (18 agents)
+│   └── commands/                 # Slash commands
 ├── docs/
-│   ├── templates/            # Document templates (read-only)
-│   ├── projects/{name}/      # Per-project documentation
+│   ├── templates/                # Document templates (read-only)
+│   ├── engine-configuration.md   # Engine config docs
+│   ├── ollama-limitations.md     # Ollama quality comparison
+│   ├── projects/{name}/          # Per-project documentation
+│   │   ├── state/                # Session state, requirements, config
 │   │   ├── architecture.md
 │   │   ├── project-status.md
-│   │   ├── changelog.md
-│   │   └── research/
+│   │   └── changelog.md
 │   ├── decisions/
 │   │   └── technology-decisions.md
 │   └── research/
@@ -146,67 +148,40 @@ Config: `.claude/agents/`
 
 ### Starting a New Project
 ```
-User: "Create a new project called {name}"
-→ Project Manager (Claude) initializes documentation from templates
-→ Technology Analyst (Claude) researches stack if needed
-→ Local agents available for implementation work
+User: /new-project
+→ Orchestrator delegates to Recruiter subagent
+→ Recruiter interviews, matches template, scaffolds project
+→ /init-agents creates state files
 ```
 
 ### Beginning a Work Session
 ```
-User: "Start session for {project}"
-→ Project Manager reads status, summarizes where we left off
-→ Confirms focus for this session
+User: /start-session {project}
+→ Orchestrator delegates to Context Keeper subagent
+→ Context Keeper reads state, provides session report
+→ User confirms focus
 ```
 
 ### Code Development
 ```
-User: "Scaffold a new API endpoint for users"
-→ Code Scaffolder (Local) generates boilerplate
-→ User reviews and refines
-→ Test Builder (Local) generates tests
-→ Code Reviewer (Local) checks for issues
-→ Claude escalation if complex issues found
-```
-
-### Making Technology Decisions
-```
-User: "What database should we use for {project}?"
-→ Technology Analyst (Claude) researches options
-→ Presents comparison with recommendation
-→ Documents decision upon approval
+User: Requests feature
+→ Orchestrator delegates to BA → requirements evaluated
+→ Orchestrator delegates to Planner → options presented, user approves
+→ Orchestrator delegates to Implementer → code written
+→ Orchestrator delegates to Validator → code validated
+    → Validator delegates to Security → vulnerability scan
+    → Validator delegates to CI/CD → pipeline check
+→ If issues: back to Implementer subagent
+→ If pass: Orchestrator delegates to QA Agent → E2E testing
+→ Deliver to user
 ```
 
 ### Ending a Work Session
 ```
-User: "End session"
-→ Status Updater (Local) drafts session log
-→ Changelog Writer (Local) drafts entries if features completed
-→ Project Manager (Claude) reviews and finalizes
-```
-
-## Local Agent Usage
-
-### Via Ollama CLI
-```bash
-# Code scaffolding
-ollama run qwen2.5-coder:7b "$(cat agents/prompts/code-scaffolder.md)
-
-Create a Python FastAPI endpoint for user registration..."
-
-# Status update
-ollama run mistral:7b "$(cat agents/prompts/status-updater.md)
-
-Project: MyApp
-Date: 2025-01-19
-Work done: Added user auth, fixed login bug..."
-```
-
-### Ollama Configuration (16GB Mac)
-```bash
-# Add to ~/.zshrc
-export OLLAMA_MAX_RAM=12GB
-export OLLAMA_NUM_PARALLEL=2
+User: /end-session
+→ Orchestrator delegates to Context Keeper subagent
+→ Context Keeper persists state, logs failures
+→ Session summary to user
 ```
 
 ## Conventions
@@ -215,7 +190,6 @@ export OLLAMA_NUM_PARALLEL=2
 - **Changelog Format**: Follows [Keep a Changelog](https://keepachangelog.com/)
 - **Research Reports**: Always include comparison matrix and clear recommendation
 - **Architecture**: Tech stack table must stay synchronized with decisions log
-- **Local vs Claude**: Default to local for routine, escalate to Claude for nuance
 
 ## Slash Commands
 
@@ -233,21 +207,10 @@ export OLLAMA_NUM_PARALLEL=2
 | `/run-qa {project} {version}` | QA Agent tests running app against requirements |
 | `/research-tech {topic}` | Trigger technology research |
 
-## Hardware Requirements
-
-**Current**: M1 MacBook Air, 16GB RAM
-- 7B models optimal (~15-20 tokens/sec)
-- 13B models slow, thermal throttling
-
-**Planned**: M2 MacBook, 32GB RAM
-- 13B models fast
-- 30B models usable
-
-See: `docs/research/local-llm-comparison.md`
-
 ## References
 
-- `setup.md` - PSB System methodology
-- `summary.md` - Quick reference
-- `agents/prompts/README.md` - Local agent documentation
-- `docs/research/local-llm-comparison.md` - LLM evaluation
+- `agents/README.md` — Full agent registry with hierarchy and interactions
+- `agents/definitions/README.md` — Agent behavioral definitions
+- `agents/prompts/README.md` — Ollama lite mode prompts
+- `docs/engine-configuration.md` — Engine config format and mapping
+- `docs/ollama-limitations.md` — 7B model quality comparison

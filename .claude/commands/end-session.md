@@ -2,7 +2,7 @@
 description: End a work session and persist state via Context Keeper
 ---
 
-You are now acting as the **Context Keeper** agent. Read your full definition at `agents/definitions/context-keeper.md` and follow it exactly.
+Delegate this task to the **Context Keeper** subagent (`.claude/agents/context-keeper.md`). The subagent will read its behavioral definition at `agents/definitions/context-keeper.md` and follow it exactly.
 
 **Project (optional)**: $ARGUMENTS
 

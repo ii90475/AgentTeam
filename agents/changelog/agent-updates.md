@@ -95,6 +95,34 @@ Each entry includes:
 - **Type:** Minor (new agent monitoring)
 - **Reason:** QA Agent addition to agent team
 
+### 2026-03-07 (v3.0.0 Architecture)
+
+#### All Agents — Unified Claude Subagent Architecture
+- **Change:** Converted all 18 agents to Claude subagents with process isolation. Created subagent definitions in `.claude/agents/` for: context-keeper, business-analyst, planner, implementer, validator, security, cicd, code-scaffolder, code-reviewer, test-builder, test-runner, status-updater, changelog-writer, doc-generator. Added YAML frontmatter to recruiter.md.
+- **Type:** Major (architecture change)
+- **Reason:** Definition agents were behavioral prompts with no process isolation — Claude played all roles in a single context. No independent judgment. Ollama agents had zero invocations in a month. v3.0.0 gives every agent its own process and independent reasoning.
+- **FailPoints Reference:** Agent team evaluation identified three problems: (1) no real agent separation, (2) unused Ollama agents, (3) CLAUDE.md bloat
+
+#### Orchestrator Protocol
+- **Change:** Main Claude session becomes orchestrator only — routes work to subagents, does not implement, validate, or evaluate. Agents communicate via files on disk, not shared context.
+- **Type:** Major (workflow change)
+- **Reason:** Process isolation ensures agents cannot see each other's reasoning. Validator judges Implementer's code independently. QA tests the running app without seeing code reasoning.
+
+#### Model Tier Assignments
+- **Change:** Assigned model tiers: Opus (technology-analyst), Sonnet (11 judgment agents), Haiku (6 pattern-following agents)
+- **Type:** Major (cost/quality optimization)
+- **Reason:** Match model capability to agent requirements. Deep reasoning for research, standard reasoning for judgment, fast/cheap for templated work.
+
+#### Engine Configuration
+- **Change:** Added per-project engine configuration (claude/ollama). Ollama retained as lite mode for 7 utility agents. Created docs/engine-configuration.md and docs/ollama-limitations.md.
+- **Type:** Minor (new configuration)
+- **Reason:** Ollama still useful for offline/cost-sensitive work. Documentation makes limitations explicit.
+
+#### Command Updates
+- **Change:** Updated start-session, end-session, evaluate-requirements, run-qa, new-project commands to use subagent delegation language instead of "You are now acting as"
+- **Type:** Minor (language alignment)
+- **Reason:** Commands should match the actual architecture — they delegate to subagents, not instruct Claude to role-play
+
 ---
 
 ## Pending Updates
