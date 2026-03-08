@@ -38,6 +38,21 @@ When the user approves, create:
 6. Initialize git
 7. Run `/init-agents {project-name}` to create state files for session persistence
 
+### Phase 4: GitHub Setup
+After git is initialized, set up GitHub integration:
+1. Create GitHub repo: `gh repo create ii90475/{project-name} --private --source . --push`
+2. Create project board: `gh project create --title "{project-name}" --owner ii90475`
+3. Link project to repo: `gh project link {project-number} --owner ii90475 --repo ii90475/{project-name}`
+4. Create labels:
+   ```
+   gh label create feature --color 0E8A16 --repo ii90475/{project-name}
+   gh label create bug --color D93F0B --repo ii90475/{project-name}
+   gh label create chore --color 9E9E9E --repo ii90475/{project-name}
+   ```
+5. Confirm GitHub setup to user
+
+See `docs/GithubTooling.md` for full workflow details.
+
 ## Available Templates
 
 Read from `templates/projects/`:
