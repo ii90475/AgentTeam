@@ -1,8 +1,8 @@
 ---
-description: Create a new version spec for a project
+description: Create a new sprint milestone on GitHub
 ---
 
-Create a new version spec for a project release.
+Create a new sprint milestone on GitHub for a project.
 
 **Project and version**: $ARGUMENTS
 
@@ -11,20 +11,23 @@ Create a new version spec for a project release.
 1. **Parse arguments:**
    - If no arguments provided, ask for project name and version number
    - If only project provided, ask for version number
+   - Version format: `v0.X.Y` (e.g., `v0.45.0`)
 
-2. **Validate project:**
-   - Check `docs/projects/{project}/` exists
-   - Check `docs/projects/{project}/application-spec.md` exists — if not, ask if user wants to create one first
+2. **Resolve GitHub repo:**
+   - Navigate to the project directory (`~/Code/{project}/`)
+   - Read the `origin` remote URL via `git remote get-url origin`
+   - Extract `owner/repo` from the URL
+   - If no GitHub remote exists, stop and tell the user
 
-3. **Check for prior versions:**
-   - Look for existing version specs in `docs/projects/{project}/`
-   - If prior versions exist, read the most recent to understand current use cases and requirements
+3. **Create milestone:**
+   - Run: `gh api repos/{owner}/{repo}/milestones -f title="{version}" -f state="open"`
+   - If milestone already exists, tell the user and stop
 
-4. **Create version spec:**
-   - Copy `docs/templates/version-spec-template.md` to `docs/projects/{project}/version-{version}.md`
-   - Fill in project name, version, and date
-
-5. **Prompt user for use cases:**
-   - Tell user to add their use cases to the new version spec
-   - Remind them to tag with [new], [extends UC-XXX vX.X], or [changes UC-XXX vX.X]
-   - When user is done, run `/evaluate-requirements {project}` to have BA evaluate
+4. **Confirm:**
+   - Tell user the milestone was created
+   - Tell user to add stories/bugs as GitHub Issues assigned to this milestone:
+     ```
+     gh issue create --title "..." --label feature --milestone "{version}" --repo {owner}/{repo}
+     gh issue create --title "..." --label bug --milestone "{version}" --repo {owner}/{repo}
+     ```
+   - When ready to evaluate, run `/evaluate-requirements {project}`
