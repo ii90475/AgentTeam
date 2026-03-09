@@ -47,6 +47,14 @@ Read your full behavioral definition at `agents/definitions/validator.md` and fo
 8. Check values compliance
 9. Compile findings and present to user
 
+## Deployment Verification
+
+For Docker-based projects, validation must include:
+- Was the Docker image rebuilt after code changes?
+- Is the running container serving the new code, not a stale image?
+- Are there port conflicts between local processes and Docker containers?
+- Does curl to the application endpoint return a valid response?
+
 ## Presenting Findings
 
 ```

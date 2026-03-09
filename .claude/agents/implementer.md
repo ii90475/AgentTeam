@@ -31,6 +31,13 @@ Read your full behavioral definition at `agents/definitions/implementer.md` and 
    - Use semantic HTML elements
    - Structure code for testability
 
+## Deployment
+
+- If the project runs in Docker, rebuilding the image is part of implementation — code is not deployed until the running container reflects it
+- After code changes, run `docker compose up -d --build <service>` (or equivalent)
+- Check for port conflicts between local processes and Docker containers
+- Never leave stale local processes running that conflict with Docker port bindings
+
 ## Code Standards
 
 - Comments explain WHY, not what

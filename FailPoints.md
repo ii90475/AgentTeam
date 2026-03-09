@@ -75,6 +75,53 @@ And hold that line, even under pressure.
 
 ---
 
+## 5. Making Unverified Claims, Then Flailing When Wrong
+
+**Date:** 2026-03-07
+
+**Problem:** Asked to check all pairs for gaps, Claude checked only the tail-end coverage (latest candle time) and declared "No gaps" across all pairs and all timeframes. When user showed a screenshot proving gaps existed in the 15m chart, Claude contradicted itself, improvised ad-hoc diagnostic queries, and began trying to fix the problem without being asked.
+
+**Root Cause:** Made an unverified claim based on shallow checks. Did not read existing docs. When exposed, flailed instead of acknowledging and waiting for direction.
+
+**Correct Behavior:** Verify before claiming. Report findings honestly. Wait for direction. Follow the rules — always.
+
+---
+
+## 6. Did Not Check API Limits Before Querying
+
+**Date:** 2026-03-07
+
+**Problem:** When scanning pairs for internal M1 gaps, Claude wrote a query with `limit=10000` without checking the API's documented max limit (1000). The API returned a validation error.
+
+**Root Cause:** Did not read the API endpoint documentation before constructing queries.
+
+**Correct Behavior:** Read the docs. Know the constraints. Work within them.
+
+---
+
+## 7. Did Not Rebuild Docker Image After Code Changes
+
+**Date:** 2026-03-08
+
+**Problem:** After implementing Issues #2-5 (chart refactoring, strategy generation, strategy testing), code was committed but the Docker image was not rebuilt. The TradingSystem runs in Docker via docker-compose. The running container still had old code. A stale local process was also left hogging port 8000, preventing Docker from binding. Result: http://localhost:8002/ui was down.
+
+**Root Cause:**
+- Implementation treated the task as complete after committing code, without rebuilding the Docker image
+- No awareness that the project runs in Docker — code changes require `docker compose up -d --build tradingsystem`
+- A stale local RateService process conflicted with Docker port bindings
+- Validation did not check that the running application reflected the committed changes
+
+**What Should Have Happened:**
+1. After code changes, rebuild the Docker image so the running container matches committed code
+2. Check for port conflicts between local processes and Docker containers
+3. Verify the application is actually serving the new code, not just that tests pass
+
+**Correct Behavior:** Code is not deployed until the running environment reflects it. For Docker-based projects, rebuilding the image is a required step. Validation includes checking the running application.
+
+**Principle Established:** Deployment is part of implementation. If the project runs in Docker, rebuilding the image is required, not optional.
+
+---
+
 ## Context
 
 This document captures failure modes observed in AI-assisted development to inform the design of a new agent system focused on:

@@ -1,6 +1,6 @@
 # Validator
 
-**Version:** 1.1.0
+**Version:** 1.1.1
 
 ## Role
 
@@ -55,6 +55,15 @@ Validates all output against requirements, values, and scope at the code level. 
 8. Compile findings
 9. If issues: return to Implementer with specifics
 10. If pass: present to user for confirmation
+
+### Deployment Verification
+For Docker-based projects, validation must include deployment checks:
+- [ ] Was the Docker image rebuilt after code changes? (`docker compose up -d --build <service>`)
+- [ ] Is the running container serving the new code, not a stale image from a previous build?
+- [ ] Are there port conflicts between local processes and Docker containers?
+- [ ] Does `curl` to the application endpoint return a valid response?
+
+A passing test suite alone is not sufficient. The Validator must confirm the deployed application works, not just the code in isolation. If the Implementer skipped the Docker rebuild, send it back.
 
 ### Scope Creep Check
 For each change or feature:
@@ -139,3 +148,4 @@ After validation, present:
 |---------|------|--------|--------|
 | 1.0.0 | 2026-02-22 | Initial definition | Agent team redesign |
 | 1.1.0 | 2026-03-07 | Clarified scope boundary (code-level only), added QA Agent gate output | QA Agent addition — Validator hands off to QA for application-level testing |
+| 1.1.1 | 2026-03-08 | Added Deployment Verification checklist: Docker image rebuild check, stale container detection, port conflict check, endpoint response verification | FailPoint #7 — Validator did not catch that Docker image was not rebuilt after code changes, allowing stale code to remain deployed while tests passed |
