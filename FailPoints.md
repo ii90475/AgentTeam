@@ -122,6 +122,29 @@ And hold that line, even under pressure.
 
 ---
 
+## 8. Stale Project Instructions Caused Repeated Failure
+
+**Date:** 2026-03-08
+
+**Problem:** After FailPoint #7 was identified and agent definitions were updated, the orchestrator continued asking the user to run Docker commands manually. The project's `CLAUDE.md` still contained stale instructions referencing launchctl and local pyenv — the old deployment method. The orchestrator followed these outdated instructions instead of the newly updated agent definitions, causing the same class of failure (user has to manage deployment) to repeat within the same session.
+
+**Root Cause:**
+- Agent definitions were updated but the project-level `CLAUDE.md` was not updated simultaneously
+- `CLAUDE.md` is the primary instruction file the orchestrator reads — it overrides agent definitions in practice
+- Stale instructions (launchctl, local pyenv) contradicted the Docker-only deployment requirement
+- No process existed to ensure project instructions stay synchronized with agent definition changes
+
+**What Should Have Happened:**
+1. When updating agent definitions for a deployment-related failure, immediately check and update the project's `CLAUDE.md` to match
+2. Project instructions and agent definitions must be consistent — update both or the fix is incomplete
+3. The orchestrator should treat Docker rebuild as its own responsibility, not delegate to the user
+
+**Correct Behavior:** When a failure leads to agent definition updates, all related instruction files (CLAUDE.md, project docs) must be updated in the same pass. A fix that updates one but not the other is an incomplete fix.
+
+**Principle Established:** Fixes must be complete. Updating agent definitions without updating the project instructions that the orchestrator actually follows is not a fix — it's a partial fix that guarantees recurrence.
+
+---
+
 ## Context
 
 This document captures failure modes observed in AI-assisted development to inform the design of a new agent system focused on:
