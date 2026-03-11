@@ -34,7 +34,8 @@ Second best available model
 1. Capture FailPoints and report to Project Manager for logging
 
 ### Security Scan
-1. Receive code from Developer
+Triggered after Tester confirms all tests pass. No point scanning code that doesn't work yet.
+1. Receive code from Developer (after Tester passes)
 2. Perform static analysis for common vulnerabilities
 3. Audit dependencies for known vulnerabilities
 4. Review configuration for security issues
@@ -84,7 +85,7 @@ Severity levels:
 ### Inputs
 | From | What |
 |------|------|
-| Developer | Code for scanning |
+| Developer | Code for scanning (after Tester passes) |
 | Project Manager | Periodic review trigger |
 
 ### Outputs

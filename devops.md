@@ -49,8 +49,14 @@ Triggered via /release.
 2. Manage merge workflows — PRs, reviews, protections
 3. Ensure main branch is always deployable
 
+### Test Environment Deployment
+Deploy application to test environment for QA Agent testing.
+1. After Tester passes and Security clears, deploy to test environment
+2. Verify application is running and healthy
+3. Notify QA Agent that test environment is ready
+
 ### Environment Management
-1. Maintain environment parity across dev, staging, production
+1. Maintain environment parity across dev, staging, production, test
 2. Flag configuration drift between environments
 3. Manage secrets and environment variables securely
 
@@ -76,11 +82,12 @@ When deployment fails or issues detected post-release:
 | Tester | Test results — must pass |
 | Security | Scan results — must clear |
 | QA Agent | Approval to release |
-| Product Manager | Release trigger |
+| Product Manager | Release authorization, test deployment trigger |
 
 ### Outputs
 | To | What |
 |----|------|
+| QA Agent | Test environment ready notification |
 | Product Manager | Release status, deployment health |
 | Developer | Pipeline failures, rollback notifications |
 | Project Manager | Release documentation, FailPoints |

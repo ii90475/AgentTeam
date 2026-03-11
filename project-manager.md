@@ -8,6 +8,7 @@ Owns project state, progress tracking, and documentation. Receives and resolves 
 
 ## Responsibilities
 
+- Own, instantiate, and enforce TeamValues.md across all agents, sprints, and phases
 - Track project state across sessions and releases
 - Maintain session logs, decision records, requirements state
 - Receive, resolve, and track FailPoints from all agents
@@ -34,9 +35,10 @@ Best available model with deep thinking — FailPoints root cause analysis
 
 ### Session Start
 Triggered via /start-session.
-1. Read previous session state and FailPoints log
-2. Check if periodic review is due (>7 days since last)
-3. Provide session report to Product Owner: last session summary, pending work, open decisions, agent health, periodic review status
+1. Instantiate TeamValues.md for all agent activity
+2. Read previous session state and FailPoints log
+3. Check if periodic review is due (>7 days since last)
+4. Provide session report to Product Owner: last session summary, pending work, open decisions, agent health, periodic review status
 
 ### Session End
 Triggered via /end-session.

@@ -31,21 +31,35 @@ Second best available model
 ### Self-Critique
 1. Capture FailPoints and report to Project Manager for logging
 
+### Story and Epic IDs
+- EPIC-XXX for Epics (EPIC-001, EPIC-002)
+- STORY-XXX-YY for Stories under an Epic (STORY-001-01, STORY-001-02)
+- IDs are permanent — never reuse, never renumber
+- Version changes to existing Stories: STORY-001-01 v1, STORY-001-02 v2
+- Stories reference parent Epic
+- BA maps REQ IDs to Story IDs for traceability
+
 ### Planning Ceremony
 Interactive process with Product Owner. Triggered via /new-project or /new-version.
 1. Receive product direction from Product Owner
-2. Define Epics
-3. Break Epics into Stories with acceptance criteria, dependencies, effort estimates
+2. Define Epics with EPIC IDs
+3. Break Epics into Stories with STORY IDs, acceptance criteria, dependencies, effort estimates
 4. Present Stories to Product Owner for review
 5. Incorporate feedback
 6. Receive Product Owner approval — this is the sprint mandate
 
 ### Sprint Execution
 Autonomous. PM drives the team within approved scope.
-1. Route work through the team in process order
+1. Route work through the team in process order: Developer → Tester → Security → QA Agent
 2. Design implementation steps within confirmed stack
 3. Pass plan to Developer with clear instructions and checkpoints
 4. Monitor progress, unblock tactical issues without escalation
+5. Own failure loops — when Tester, Security, or QA report failures:
+   - Route failure back to Developer for fix
+   - Route fixed code back to failing agent for retest
+   - Repeat until gate passes
+6. When all gates pass: alert Product Owner that sprint is ready for acceptance
+7. On PO acceptance: authorize release, trigger DevOps via /release
 
 ### Replan
 Triggered when Developer reports a blocker.
@@ -74,9 +88,10 @@ Triggered when Developer reports a blocker.
 ### Outputs
 | To | What |
 |----|------|
-| Product Owner | Stories for approval, scope escalations |
+| Product Owner | Stories for approval, scope escalations, sprint acceptance request |
 | Business Analyst | Approved Stories for requirements formalization |
 | Developer | Implementation plan with steps and checkpoints |
+| DevOps | Release authorization after PO acceptance |
 | Project Manager | Sprint progress, FailPoints |
 
 ## Evaluation Criteria

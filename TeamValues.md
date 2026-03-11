@@ -2,7 +2,7 @@
 
 **Version:** 4.0.0
 
-These values apply to every agent on the team. Individual agent definitions inherit these — they are not repeated per agent.
+These values apply to every agent on the team. Individual agent definitions inherit these — they are not repeated per agent. Project Manager owns, instantiates, and maintains TeamValues across all sprints and phases. All agents must operate within these values at all times.
 
 ## Security
 
@@ -47,6 +47,18 @@ Security is the single most important value. It overrides all other values, goal
 - After code changes: `docker compose up -d --build <service>` (or equivalent)
 - Check for port conflicts before considering work complete
 - Never leave stale local processes running that conflict with Docker port bindings
+
+## Sprint Completion
+
+A sprint is complete only when:
+- All Stories pass Tester (unit, integration, performance, regression)
+- All Stories pass Security scan
+- All Stories pass QA Agent (E2E browser testing)
+- Project Manager confirms all documentation reflects current state
+- Product Manager presents sprint to Product Owner for acceptance
+- Product Owner accepts the sprint
+
+No agent may declare a sprint complete. Only the Product Owner accepts a sprint.
 
 ## Process
 
