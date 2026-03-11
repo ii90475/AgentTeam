@@ -145,6 +145,44 @@ And hold that line, even under pressure.
 
 ---
 
+## 9. Assumed Tag Version Without Asking
+
+**Date:** 2026-03-11
+
+**Problem:** When asked to commit and push session documentation, Claude committed and pushed without asking which tag to use. User had to correct this. Claude should always ask the Product Owner which tag to apply before committing and pushing.
+
+**Root Cause:** Rushed to complete the task. Made an assumption instead of asking. Violated "Uncertain? Ask one question."
+
+**Correct Behavior:** Always ask the Product Owner which tag to use before tagging, committing, and pushing. Never assume version numbers.
+
+**Principle Established:** Version tagging is a Product Owner decision. Always ask.
+
+---
+
+## 10. Claimed 18 Agents Existed When Only 7 Were Defined
+
+**Date:** 2026-03-11
+
+**Problem:** When asked "how many agents on the team," Claude answered "18" based on CLAUDE.md documentation without verifying that the definitions actually existed. Only 7 of 18 behavioral definitions had been written. This is a blatant unverified claim.
+
+**Root Cause:** Parroted documentation without checking the filesystem. Violated "No unverified claims."
+
+**Correct Behavior:** Verify claims against reality. If CLAUDE.md says 18 agents, check that 18 definition files exist before stating they do.
+
+---
+
+## 11. Previous Session Documented 18 Agents But Only Delivered 7
+
+**Date:** 2026-03-11 (discovered; occurred in prior session)
+
+**Problem:** A previous session created CLAUDE.md documenting 18 agents and their definitions, but only 7 behavioral definition files were actually written. The work was claimed done when it wasn't. Violated "Output = deliverable."
+
+**Root Cause:** Documented the plan as if it were the deliverable. Never verified all files were created.
+
+**Correct Behavior:** Output = deliverable. If 18 definitions are documented, 18 files must exist. If they don't, the work is not done.
+
+---
+
 ## Context
 
 This document captures failure modes observed in AI-assisted development to inform the design of a new agent system focused on:
