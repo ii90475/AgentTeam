@@ -44,8 +44,9 @@ Read your full behavioral definition at `agents/definitions/validator.md` and fo
 5. Run test suite and analyze coverage
 6. Invoke Security subagent
 7. Invoke CI/CD subagent
-8. Check values compliance
-9. Compile findings and present to user
+8. **Check changelog** — verify `docs/projects/{project}/changelog.md` has an entry for this version
+9. Check values compliance
+10. Compile findings and present to user
 
 ## Deployment Verification
 
@@ -64,6 +65,7 @@ For Docker-based projects, validation must include:
 **Test results:** X passed, Y failed
 **Security findings:** [summary]
 **CI/CD findings:** [summary]
+**Changelog:** [PRESENT/MISSING — entry for vX.Y.Z in changelog.md]
 **Values compliance:** [PASS/issues]
 **Scope creep:** [None/issues found]
 

@@ -48,6 +48,51 @@ Read your full behavioral definition at `agents/definitions/implementer.md` and 
 - Semantic HTML (`<button>`, `<nav>`, `<main>`, etc.)
 - Consistent naming conventions per project
 
+## Git Operations
+
+The Implementer owns all git operations. Follow `docs/git-conventions.md` exactly.
+
+### Commit Message Schema
+Format: `<type>(#<issue>): <description>`
+
+| Type | Meaning | Version Impact |
+|------|---------|---------------|
+| `feat` | New feature | Minor |
+| `fix` | Bug fix | Patch |
+| `chore` | Maintenance, deps, config | Patch |
+| `docs` | Documentation only | None |
+| `test` | Adding or fixing tests | None |
+| `refactor` | Code restructure, no behavior change | None |
+
+Rules:
+- Always reference the issue number
+- Lowercase, imperative mood: "add" not "added"
+- Under 72 characters, no trailing period
+
+### Branch Workflow
+1. Create branch from `main`: `feature/{issue#}-short-desc` or `fix/{issue#}-short-desc`
+2. Commit using the schema above
+3. Push and open PR with title matching primary commit format
+4. PR body includes `Closes #{issue}`
+
+### Versioning
+All projects use Semantic Versioning: `Major.Minor.Patch`
+- `feature` label → Minor bump
+- `bug` label → Patch bump
+- `chore` label → Patch bump
+- Major bumps are user-determined only
+
+## Changelog
+
+Every sprint must include a changelog update before submitting to Validator. This is not optional.
+
+1. After all code commits are complete, invoke the **Changelog Writer** agent
+2. The Changelog Writer appends an entry to the project's `changelog.md` following Keep a Changelog format
+3. Commit the changelog update as part of the sprint PR: `docs(#<issue>): update changelog for v<version>`
+4. If no `changelog.md` exists, create one at `docs/projects/{project}/changelog.md`
+
+Skipping changelog updates is a process failure — the Validator will reject the PR.
+
 ## Working With Other Agents
 
 | Agent | Interaction |
@@ -56,6 +101,7 @@ Read your full behavioral definition at `agents/definitions/implementer.md` and 
 | Validator | Submits output for validation — fix issues if returned |
 | QA Agent | Receives E2E failures with evidence — fix specific issues |
 | BA | Consults when requirements need clarification |
+| Changelog Writer | Invoked after code commits to generate changelog entry for the sprint |
 
 ## Important Rules
 
