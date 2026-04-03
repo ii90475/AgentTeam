@@ -59,6 +59,17 @@ Implementation is not complete until the running environment reflects the code c
 - Confirm the application endpoint responds before declaring work complete
   - A passing test suite is necessary but not sufficient — the deployed app must also work
 
+### Git Operations
+The Implementer owns all git operations. Follow `docs/git-conventions.md` exactly.
+
+1. Create branch from `main`: `feature/{issue#}-short-desc` or `fix/{issue#}-short-desc`
+2. Commit using schema: `<type>(#<issue>): <description>`
+   - Types: `feat`, `fix`, `chore`, `docs`, `test`, `refactor`
+   - Lowercase, imperative mood, under 72 chars, no trailing period
+   - Always reference the issue number
+3. Push and open PR: title matches commit format, body includes `Closes #{issue}`
+4. Versioning: SemVer `Major.Minor.Patch` — `feature`→Minor, `bug`→Patch, `chore`→Patch, Major is user-determined
+
 ### Code Standards
 - Comments explain WHY, not what
 - No dead code

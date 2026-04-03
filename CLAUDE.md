@@ -184,6 +184,11 @@ User: /end-session
 
 ## Conventions
 
+- **Versioning**: All projects use Semantic Versioning — `Major.Minor.Patch`. See `docs/git-conventions.md`
+- **Commit Messages**: `<type>(#<issue>): <description>` — types: `feat`, `fix`, `chore`, `docs`, `test`, `refactor`
+- **Branches**: `feature/{issue#}-short-desc` or `fix/{issue#}-short-desc`
+- **PRs**: Title follows commit format, body includes `Closes #N`
+- **Tags**: `vMajor.Minor.Patch` — Sprint = Version = Milestone = Tag
 - **Document Updates**: Agents append to session logs, never overwrite history
 - **Changelog Format**: Follows [Keep a Changelog](https://keepachangelog.com/)
 - **Research Reports**: Always include comparison matrix and clear recommendation
